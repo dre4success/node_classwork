@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+	<title></title>
+</head>
+<body>
+		<div id="students" class="hide">
+		<div class="add-student">Add Student</div>
+		<ul id="students-list">
+		</ul>
+	</div>
+	
+		<script type="text/javascript">
+		xhr = new XMLHttpRequest();
+			xhr.open("GET", "http://192.168.33.71:3000/api/v1/students");
+		xhr.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("token"));
+
+		xhr.onreadystatechange = function(){
+			handleResponseFetch(xhr);
+		};
+		
+		xhr.send(null);
+
+
+	function handleResponseFetch(http){
+		if(http.readyState == 4) {
+			if(http.status == 200 || http.status == 304) {
+				student = JSON.parse(http.responseText);
+
+				
+				//console.log(student[0].name + ', ' + student[0].role);
+				
+ 
+				
+				for(i = 0; i < student.length; i ++) {
+
+				var divv = document.getElementById('students');
+				var ul = document.getElementById("students-list");
+				var br = document.createElement('br');
+				console.log(student[i]);
+				var li = document.createElement('li');
+					var show = document.createTextNode('Role: ' + student[i].role);
+					var show1 = document.createTextNode('Name: ' + student[i].name);
+				
+					li.appendChild(show);
+					li.appendChild(br);
+					li.appendChild(show1);
+					ul.appendChild(li);
+					
+
+				} 
+
+
+			}
+		}
+	}
+		</script>
+</body>
+</html>
